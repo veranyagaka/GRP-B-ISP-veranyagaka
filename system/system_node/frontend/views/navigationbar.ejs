@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <style>
+        .nav-bar {
+            position: relative;
+            z-index: 1001;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #242424;
+            border-bottom: 1px solid #333;
+            
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-right: 30px;
+            z-index: 1001;
+        }
+        .logo img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .search-bar {
+            background-color: #303030;
+            border: 1px solid #444;
+            border-radius: 25px;
+            padding: 5px 15px;
+            width: 300px;
+            margin-right: 20px;
+            display: flex;
+        }
+        .search-bar input {
+            background-color: #303030;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            padding: 5px 10px;
+            width: 100%;
+            border-radius: 25px;
+        }
+        .search-bar input:focus {
+            outline: none;
+        }
+        .icons {
+            display: flex;
+            align-items: center;
+        }
+        .icon {
+            width: 35px;
+            height: 35px;
+            margin-right: 15px;
+            border-radius: 50%;
+            background-color: #242424;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .icon:hover {
+            background-color: #303030;
+        }
+        .icon i {
+            color: #fff;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: #303030;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .tooltip:after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent #303030 transparent;
+        }
+        .icon:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .menu-icon {
+            margin-right: auto;
+        }
+        .menu-icon i {
+            color: #fff;
+        }
+        .settings-icon {
+            margin-left: auto;
+        }
+        .settings-icon i {
+            color: #fff;
+        }
+
+        .profile-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .profile-links p {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .profile-links a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #000;
+            margin: 0 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .profile-links a:hover {
+            background-color: #f0f0f0;
+        }
+        .profile-links a i {
+            margin-right: 5px;
+        }
+        .profile-links a + a {
+            margin-top: 10px;
+        }
+        @media (min-width: 768px) {
+            .profile-links {
+                flex-direction: row;
+            }
+            .profile-links a + a {
+                margin-top: 0;
+                margin-left: 10px;
+            }
+        }
+
+        .sidebar {
+            margin-top: 65px;
+            display: inline-block;
+            position: fixed;
+            top: 0;
+            left: -250px; /* Initially hidden off-screen */
+            height: 100%;
+            width: 250px;
+            background-color: #343a40;
+            transition: left 0.3s ease;
+            padding-top: 15px;
+            z-index: 1000;
+        }
+        .sidebar .nav-link {
+            color: #fff;
+            padding: 15px 20px;
+            font-size: 18px;
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #495057;
+        }
+        .sidebar-active {
+            left: 0; /* Show sidebar by moving it to the left edge */
+        }
+        .submenu {
+            display: none;
+            background-color: #343a40;
+        }
+        .submenu .nav-link {
+            padding-left: 40px;
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+        .submenu .nav-link:hover {
+            background-color: #495057;
+        }
+        .active-submenu {
+            display: block;
+        }
+        .sidebar-heading {
+        padding: 1rem;
+        font-size: 1rem;
+        color: #fff;
+        letter-spacing: 2px;
+        font-weight: 500;
+    }
+    .fa-caret-down {
+  transition: transform 0.3s ease-in-out;
+}
+
+.fa-caret-up {
+  transform: rotate(180deg);
+}
+body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        .nav-bar.dark-mode {
+            background-color: #1f1f1f;
+            border-bottom-color: #444;
+        }
+        .search-bar.dark-mode {
+            background-color: #1f1f1f;
+            border-color: #555;
+        }
+        .search-bar input.dark-mode {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+        .icon.dark-mode {
+            background-color: #1f1f1f;
+        }
+        .tooltip.dark-mode {
+            background-color: #1f1f1f;
+        }
+        .sidebar.dark-mode {
+            background-color: #1f1f1f;
+        }
+        .sidebar .nav-link.dark-mode {
+            color: #ffffff;
+        }
+        .sidebar .nav-link.dark-mode:hover {
+            background-color: #2a2a2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="logo">
+            <img src="/favicon.ico" alt="Paymaster Logo">
+            <div class="sidebar-heading">Paymaster</div>
+        </div>
+        <div class="menu-icon icon" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+            <span class="tooltip">Menu</span>
+        </div>
+        <div class="profile-links">
+            <a href="/employee-profile">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a><br/>
+            <a href="/accounts/finance">
+                <i class="fas fa-dollar-sign"></i> Finance
+            </a><br/>
+            <a href="/accounts/employee-attendance">
+                <i class="fas fa-hand-holding-usd"></i> Attendance
+            </a><br/>
+
+            <a href="/logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+        <div class="icons">
+            <div class="icon" data-tooltip="Notification">
+                <i class="fas fa-bell"></i>
+                <span class="tooltip">Notification</span>
+            </div>
+            <div class="settings-icon icon" data-tooltip="Settings">
+                <a href="#"><i class="fas fa-cog"></i></a>
+                <span class="tooltip">Settings</span>
+            </div>
+            <div class="icon" data-tooltip="Account">
+                <i class="fas fa-user"></i>
+                <span class="tooltip">Account</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="/employee-profile">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-cog"></i> Settings
+                    <i class="fas fa-caret-down"></i>
+
+                </a>
+                <ul class="submenu">
+                    <li class="nav-item"><a class="nav-link" href="#">Change Password</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Change Profile Pic</a></li>
+
+                </ul>
+            </li>
+            <a class="nav-link" data-toggle="collapse" href="#paymentsSubmenu" role="button" aria-expanded="false" aria-controls="paymentsSubmenu">
+                <i class="fas fa-money-bill"></i> Payments
+                <i class="fas fa-caret-down ml-auto"></i>
+            </a>
+            <div class="collapse submenu" id="paymentsSubmenu">
+                <a class="nav-link" href="/accounts/payslip">View Payment History</a>
+                <a class="nav-link" data-toggle="modal" data-target="#editPaymentModal">Edit Payment Method</a>
+            </div>
+            <li class="nav-item">
+                <a class="nav-link" href="#"> 
+                    <i class="fas fa-moon"></i> Preferences
+                    <i class="fas fa-caret-down"></i>
+
+                </a>
+                <ul class="submenu">
+                    <li class="nav-item" id ="dark-mode-toggle"><a class="nav-link" href="#" ><i class="fas fa-sun"> </i>Dark Mode</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-lock"></i> Quick Links
+                    <i class="fas fa-caret-down"></i>
+
+                </a>
+                <ul class="submenu">
+                    <li class="nav-item"><a class="nav-link" href="/accounts/leave_application">Leave Application</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/accounts/payslip">Data Access</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/accounts/payslip">
+                    <i class="fas fa-history"></i> Activity
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout" target="_blank" >
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        $('a[data-target="#editPaymentModal"]').click(function(event) {
+                event.preventDefault(); // Prevent the default link behavior
+                $('#editPaymentModal').modal('show'); // Show the modal
+            });
+        $(document).ready(function() {
+  // Toggle submenu on click
+  $('.nav-item.has-submenu').click(function() {
+    $(this).find('.submenu').slideToggle(300);
+    $(this).find('.fas.fa-caret-down').toggleClass('fa-caret-up');
+  });
+});
+        $(document).ready(function() {
+            $('#menu-toggle').click(function() {
+                $('.sidebar').toggleClass('sidebar-active');
+            });
+
+            $('.nav-link').click(function(e) {
+                if ($(this).siblings('.submenu').length > 0) {
+
+                e.preventDefault();
+                $(this).siblings('.submenu').toggleClass('active-submenu');
+                $(this).find('.fas.fa-caret-down, .fas.fa-caret-up').toggleClass('fa-caret-down fa-caret-up');
+
+            }
+        });
+        $('.nav-link[href="#"]').click(function(e) {
+        e.preventDefault();
+        const linkText = $(this).text().trim();
+        if (linkText === 'Change Password') {
+            $('#changePasswordModal').modal('show');
+        } else if (linkText === 'Change Profile Pic') {
+            $('#changeProfilePicModal').modal('show');
+        }
+    });
+        });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
+
+            // Toggle the icon between sun and moon
+            const icon = darkModeToggle.querySelector('i');
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+
+            // Toggle classes for other elements
+            document.querySelectorAll('.nav-bar, .search-bar, .search-bar input, .icon, .tooltip, .sidebar, .sidebar .nav-link').forEach(function(element) {
+                element.classList.toggle('dark-mode');
+            });
+        });
+    });
+    </script>
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm" action="/accounts/changePassword" method="post">
+                    <div class="form-group">
+                      <label for="currentPassword">Current Password</label>
+                      <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="newPassword">New Password</label>
+                      <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="confirmPassword">Confirm New Password</label>
+                      <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                  </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Payment Details Modal -->
+    <div class="modal fade" id="editPaymentModal" tabindex="-1" role="dialog" aria-labelledby="editPaymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPaymentModalLabel">Edit Payment Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/accounts/employees/edit-payment-details" method="POST">
+                        <div class="form-group">
+                            <label for="bankName">Bank Name</label>
+                            <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Enter bank name">
+                        </div>
+                        <div class="form-group">
+                            <label for="bankAccountName">Bank Account Name</label>
+                            <input type="text" class="form-control" id="bankAccountName" name="bankAccountName" placeholder="Enter bank account name">
+                        </div>
+                        <div class="form-group">
+                            <label for="bankAccountNumber">Bank Account Number</label>
+                            <input type="text" class="form-control" id="bankAccountNumber" name="bankAccountNumber" placeholder="Enter bank account number">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<!-- Change Profile Pic Modal -->
+<div class="modal fade" id="changeProfilePicModal" tabindex="-1" aria-labelledby="changeProfilePicModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeProfilePicModalLabel">Change Profile Picture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="changeProfilePicForm" action="/accounts/changeProfilePic" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="profilePic">Upload New Profile Picture</label>
+                        <input type="file" class="form-control-file" id="profilePic" name="profilePic" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Change Profile Pic</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

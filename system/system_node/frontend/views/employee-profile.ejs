@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <%- include('navigationbar') %>
+    <style>
+        .login-message {
+            text-align: center;
+            color: green;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .emp-profile {
+            padding: 3%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            border-radius: 0.5rem;
+            background: #fff;
+        }
+        .profile-img {
+            text-align: center;
+        }
+        .profile-img img {
+            width: 70%;
+            max-width: 200px; /* Adjust max-width as needed */
+            height: auto;
+        }
+        .profile-img .file {
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            width: 70%;
+            border: none;
+            border-radius: 0;
+            font-size: 15px;
+            background: #007bff;
+            color: #fff;
+        }
+        .profile-img .file input {
+            position: absolute;
+            opacity: 0;
+            right: 0;
+            top: 0;
+        }
+        .profile-head {
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            margin-bottom: 20px;
+        }
+        .profile-head h5, .profile-head h6, .profile-head p {
+            padding-bottom: 20px;
+            margin: 5px 0;
+        }
+        .profile-label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .profile-value {
+            color: #6c757d;
+        }
+        .profile-edit-btn {
+            border: none;
+            border-radius: 1.5rem;
+            width: auto;
+            padding: 2%;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+        }
+        .profile-edit-btn:hover {
+            background-color: #0062cc;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="container">
+        <div class="container">
+            <!-- Notification Alert -->
+            <% if (!employee || !employee.profile_picture || !employee.bio || showPaymentButton) { %>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Incomplete Profile!</strong> Please complete your profile and set/edit your payment details.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <% } %>
+        <div class="profile-content">
+            <div class="container emp-profile">
+                <div class="row">
+                    <% if (employee) { %>
+
+                    <div class="col-md-4">
+                        <div class="profile-img">
+                            <img src="<%= employee.profile_picture ? employee.profile_picture : '/uploads/profile_pics/user.png' %>" alt="profile picture" class="img-fluid"/>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="profile-head">
+                            <h5>Employee ID: <%= employee.employeeID %></h5>
+                            <h5>First Name: <%= employee.first_name %></h5>
+                            <h5>Last Name:<%= employee.last_name %></h5>
+                            <h5>Email: <%= employee.email %></h5>
+                            <h5>Gender: <%= employee.gender %></h5>
+                            <h5>Availability: <%= employee.availability %></h5>
+                            <h5>Department: <%= employee.department %></h5>
+                            <h5>Bio: <%= employee.bio %></h5>
+                        </div>
+                    </div>
+                    <% } else { %>
+                        <p>Error: Profile information unavailable.</p>
+                      <% } %>  
+                </div>
+                    <div class="row">
+                        <div class="col-md-12 text-md-center">
+                            <% if (showPaymentButton) { %>
+                                <button class="btn btn-dark payment-details-btn" data-toggle="modal" data-target="#setPaymentModal">Set Payment Method</button>
+                            <% } %>
+                        </div>
+                        <div class="col-md-12 text-md-right">
+                            <button class="btn btn-primary profile-edit-btn" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
+                        </div>
+                    </div>
+
+                    
+            </div>
+        </div>
+    </div>
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/accounts/employees/edit/<%= employee.employeeID %>" method="POST">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter last name">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender" class="form-label">Gender:</label>
+                            <select id="gender" name="gender" class="form-control">
+                                <option value="F" <%= employee.gender === 'F' ? 'selected' : '' %>>Female</option>
+                                <option value="M" <%= employee.gender === 'M' ? 'selected' : '' %>>Male</option>
+                                <option value="Prefer not to say" <%= employee.gender === 'Prefer not to say' ? 'selected' : '' %>>Prefer not to say</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bio">Bio</label>
+                            <input type="bio" class="form-control" id="bio" name="bio"placeholder="Enter bio">
+                        </div>     
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>               
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Payment Details Modal -->
+<div class="modal fade" id="setPaymentModal" tabindex="-1" role="dialog" aria-labelledby="setPaymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="setPaymentModalLabel">Set Payment Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/accounts/employees/payment-details/" method="POST">
+                    <div class="form-group">
+                        <label for="bankName">Bank Name</label>
+                        <input type="text" class="form-control" id="setbankName" name="setbankName" placeholder="Enter bank name">
+                    </div>
+                    <div class="form-group">
+                        <label for="bankAccountName">Bank Account Name</label>
+                        <input type="text" class="form-control" id="setbankAccountName" name="setbankAccountName" placeholder="Enter bank account name">
+                    </div>
+                    <div class="form-group">
+                        <label for="bankAccountNumber">Bank Account Number</label>
+                        <input type="text" class="form-control" id="setbankAccountNumber" name="setbankAccountNumber" placeholder="Enter bank account number">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<%- include('footer') %>
+
+</html>
