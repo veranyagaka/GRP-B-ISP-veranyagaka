@@ -40,8 +40,10 @@ app.use(cors({
 
 app.set('view engine', 'ejs');
 // Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, '../frontend/views'));
 app.use(express.static(path.join(__dirname, '../frontend/public'))); // CSS/JS/images
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(express.json());
 
@@ -49,9 +51,8 @@ app.use(express.json());
 const predictionRoutes = require('./routes/prediction');
 app.use('/', predictionRoutes);
 
-
 const resolutionRoutes = require("./routes/resolution");
-app.use("/api/resolution", resolutionRoutes);
+app.use("/", resolutionRoutes);
 
 const authRoutes = require("./routes/auth");
 app.use("/auth", authRoutes);

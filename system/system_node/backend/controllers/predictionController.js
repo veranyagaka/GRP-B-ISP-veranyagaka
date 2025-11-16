@@ -5,7 +5,7 @@ const pool = require('../db');
 exports.runPrediction = async (req, res) => {
   try {
     const imagePath = req.file.path;
-
+    console.log(imagePath)
     // Run the Python script
     const python = spawn('python3', [
       path.join(__dirname, '../python/predictor.py'),

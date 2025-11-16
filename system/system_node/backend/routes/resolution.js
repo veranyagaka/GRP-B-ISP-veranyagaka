@@ -1,12 +1,28 @@
-import express from "express";
-import multer from "multer";
-import { resolveImage } from "../controllers/resolutionController.js";
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const { runResolution } = require('../controllers/resolutionController');
 
 const router = express.Router();
-const upload = multer({
-  dest: path.join(__dirname, '../public/uploads')
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../public/uploads'));
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // keep original name
+  }
 });
 
-router.post("/resolve", upload.single("image"), resolveImage);
+const upload = multer({ storage });
 
-export default router;
+// const upload = multer({
+//   dest: path.join(__dirname, '../public/uploads')
+// });
+
+router.get("/resolve", (req, res) => {
+  res.render("resolution_upload"); 
+});
+
+router.post("/resolve", upload.single("image"), runResolution);
+
+module.exports = router;

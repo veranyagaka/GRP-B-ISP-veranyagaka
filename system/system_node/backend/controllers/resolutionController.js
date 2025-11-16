@@ -1,39 +1,49 @@
 const path = require('path');
 const { spawn } = require('child_process');
-const pool = require('../db'); // optional if you'll save results later
+const pool = require('../db'); // optional
 
 exports.runResolution = async (req, res) => {
   try {
     const imagePath = req.file.path;
-
-    // Run the resolution model script
-    const python = spawn('python3', [
+    console.log(imagePath)
+    // Spawn Python process
+    const python = spawn('python3.11', [
       path.join(__dirname, '../python/resolution.py'),
       imagePath
     ]);
 
     let data = '';
-    python.stdout.on('data', chunk => (data += chunk.toString()));
 
-    python.stderr.on('data', err => console.error('Python Error:', err.toString()));
+    python.stdout.on('data', chunk => {
+      data += chunk.toString();
+    });
 
-    python.on('close', async (code) => {
+    python.stderr.on('data', err => {
+      console.error('Python Error:', err.toString());
+    });
+
+    python.on('close', async () => {
+      if (!data) {
+        console.error("Python returned no output");
+        return res.status(500).send("Resolution failed");
+      }
+
       try {
         const result = JSON.parse(data);
-
-        // (Optional) save result to DB
+        console.log(result);
+        // Optional DB save
         // await pool.query(
         //   'INSERT INTO resolutions (user_id, image_path, metrics, output_path) VALUES ($1, $2, $3, $4)',
         //   [1, imagePath, result.metrics, result.output_path]
         // );
 
-        // Render EJS page
         res.render('resolution', { result });
       } catch (err) {
-        console.error('Parse/Render Error:', err);
-        res.status(500).send('Resolution failed');
+        console.error('JSON Parse Error:', err, 'Data:', data);
+        res.status(500).send('Resolution failed (invalid JSON)');
       }
     });
+
   } catch (err) {
     console.error('Controller Error:', err);
     res.status(500).send('Error uploading file');

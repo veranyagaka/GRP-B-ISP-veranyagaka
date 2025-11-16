@@ -132,8 +132,8 @@ router.post('/admin-login', async (req, res) => {
           res.status(500).json({ error: 'Internal server error' });
         }
       });
-const adminRouter =require('./routes/admin')
-router.use('/admin',isAuthenticated, adminRouter)
+// const adminRouter =require('./routes/admin')
+// router.use('/admin',isAuthenticated, adminRouter)
 
 router.get('/employee-profile', async (req, res) => {
   req.flash('success', 'Login successful!');

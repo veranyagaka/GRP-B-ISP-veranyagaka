@@ -10,16 +10,22 @@
     <h1>🩻 Enhanced X-Ray Result</h1>
 
     <% if (result.error) { %>
+      result.message
       <p class="error"><%= result.error %></p>
     <% } else { %>
       <div class="result">
         <h2><%= result.message %></h2>
         <img src="/<%= result.output_path %>" alt="Enhanced Image" style="max-width:400px; border-radius:10px;">
         <p><strong>Metrics:</strong> <%= result.metrics %></p>
+
+        <!-- Download Button -->
+        <a href="/<%= result.output_path %>" download class="btn">
+          ⬇️ Download Enhanced Image
+        </a>
       </div>
     <% } %>
 
-    <a href="/upload" class="btn">🔙 Upload Another</a>
+    <a href="/resolve" class="btn">🔙 Upload Another</a>
   </div>
 </body>
 </html>
