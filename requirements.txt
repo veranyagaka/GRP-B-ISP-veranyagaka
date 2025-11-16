@@ -1,7 +1,5 @@
 torch
-supabase
-firebase
-django
 pillow
 opencv
 numpy
+scikit-image 

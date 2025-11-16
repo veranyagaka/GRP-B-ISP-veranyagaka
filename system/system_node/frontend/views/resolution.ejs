@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Resolution Result</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🩻 Enhanced X-Ray Result</h1>
+
+    <% if (result.error) { %>
+      <p class="error"><%= result.error %></p>
+    <% } else { %>
+      <div class="result">
+        <h2><%= result.message %></h2>
+        <img src="/<%= result.output_path %>" alt="Enhanced Image" style="max-width:400px; border-radius:10px;">
+        <p><strong>Metrics:</strong> <%= result.metrics %></p>
+      </div>
+    <% } %>
+
+    <a href="/upload" class="btn">🔙 Upload Another</a>
+  </div>
+</body>
+</html>
