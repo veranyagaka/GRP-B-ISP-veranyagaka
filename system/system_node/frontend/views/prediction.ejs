@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html>
-  <head><title>Prediction Result</title></head>
-  <body>
-    <h2>Prediction Result</h2>
-    <p><strong>Label:</strong> <%= result.label %></p>
-    <p><strong>Confidence:</strong> <%= result.confidence %>%</p>
-    <a href="/predict">Try another image</a>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prediction Result</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+
+  <div class="max-w-md w-full bg-white shadow-xl rounded-2xl p-10">
+
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+      🧠 Prediction Result
+    </h2>
+
+    <div class="space-y-4 text-gray-700 text-lg">
+
+      <p>
+        <strong class="font-semibold text-gray-900">Label:</strong>
+        <span class="ml-1"><%= result.label %></span>
+      </p>
+
+      <p>
+        <strong class="font-semibold text-gray-900">Confidence:</strong>
+        <span class="ml-1"><%= result.confidence %>%</span>
+      </p>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-8 flex flex-col space-y-4">
+
+      <a 
+        href="/predict" 
+        class="w-full text-center bg-blue-600 text-white py-3 rounded-xl shadow hover:bg-blue-700 transition"
+      >
+        🔁 Try Another Image
+      </a>
+
+      <a 
+        href="/dashboard" 
+        class="w-full text-center bg-gray-700 text-white py-3 rounded-xl shadow hover:bg-gray-800 transition"
+      >
+        ← Back to Dashboard
+      </a>
+
+    </div>
+
+  </div>
+
+</body>
 </html>

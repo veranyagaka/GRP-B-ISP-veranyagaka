@@ -1,11 +1,61 @@
 <!DOCTYPE html>
-<html>
-  <head><title>Upload X-Ray</title></head>
-  <body>
-    <h2>Upload Chest X-Ray</h2>
-    <form action="/predict" method="POST" enctype="multipart/form-data">
-      <input type="file" name="xrayImage" accept="image/*" required />
-      <button type="submit">Analyze</button>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Chest X-Ray</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+
+  <div class="max-w-md w-full bg-white shadow-xl rounded-2xl p-10">
+
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+      Upload Chest X-Ray
+    </h2>
+
+    <form 
+      action="/predict" 
+      method="POST" 
+      enctype="multipart/form-data"
+      class="space-y-6"
+    >
+
+      <!-- File Upload -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">
+          Select Chest X-Ray Image
+        </label>
+
+        <input 
+          type="file" 
+          name="xrayImage" 
+          accept="image/*" 
+          required
+          class="block w-full bg-gray-50 text-gray-700 border border-gray-300 rounded-xl p-3 cursor-pointer focus:ring-2 focus:ring-blue-500"
+        >
+      </div>
+
+      <!-- Submit Button -->
+      <button 
+        type="submit"
+        class="w-full bg-blue-600 text-white py-3 rounded-xl text-lg font-medium shadow hover:bg-blue-700 transition"
+      >
+        🔍 Analyze X-Ray
+      </button>
     </form>
-  </body>
+
+    <!-- Back to Dashboard -->
+    <a 
+      href="/dashboard"
+      class="mt-6 block text-center text-gray-700 hover:text-gray-900 transition"
+    >
+      ← Back to Dashboard
+    </a>
+
+  </div>
+
+</body>
 </html>

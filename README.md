@@ -38,9 +38,16 @@ This project implements an **SRCNN (Super-Resolution Convolutional Neural Networ
 
 ## Usage
 1. Super-resolving an image
-2. Testing / Evaluation
+```bash
+python3.11 resolution.py /path/to/image
+```
 
-## Hugging Face Space
+2. Prediction of an image
+```bash
+python3.11 predictor.py /path/to/image
+```
+
+## Hugging Face Spaces
 https://huggingface.co/spaces/veranyagaka/srcnn
 
 https://huggingface.co/spaces/veranyagaka/super-resolution

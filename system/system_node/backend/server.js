@@ -114,6 +114,9 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.render('index');
 });
+app.get('/dashboard', (req, res) => {
+  res.render('dashboard');
+});
 app.listen(port, () => {
     console.log(`PayMaster app listening at http://localhost:${port}`);
 });
