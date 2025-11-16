@@ -4,33 +4,46 @@ const pool = require('../db');
 
 exports.runPrediction = async (req, res) => {
   try {
-    const imagePath = req.file.path;
-    console.log(imagePath)
-    // Run the Python script
-    const python = spawn('python3', [
-      path.join(__dirname, '../python/predictor.py'),
-      imagePath
-    ]);
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).send("No files uploaded");
+    }
 
-    let data = '';
-    python.stdout.on('data', chunk => data += chunk.toString());
+    const results = [];
 
-    python.on('close', async () => {
-      try {
-        const result = JSON.parse(data);
-        // Save to DB
-        // await pool.query(
-        //   'INSERT INTO predictions (user_id, image_path, result_label, confidence) VALUES ($1, $2, $3, $4)',
-        //   [1, imagePath, result.label, result.confidence] // temporary user_id=1
-        // );
-        res.render('prediction', { result });
-      } catch (err) {
-        console.error(err);
-        res.status(500).send('Prediction failed');
-      }
-    });
+    for (const file of req.files) {
+      const imagePath = file.path;
+      console.log("Processing:", imagePath);
+
+      // Run Python script for each file
+      const data = await new Promise((resolve, reject) => {
+        const python = spawn('python3', [
+          path.join(__dirname, '../python/predictor.py'),
+          imagePath
+        ]);
+
+        let output = '';
+
+        python.stdout.on('data', chunk => output += chunk.toString());
+        python.on('close', () => resolve(output));
+        python.on('error', reject);
+      });
+
+      const result = JSON.parse(data);
+      results.push({
+        image: file.filename,
+        path: imagePath,
+        label: result.label,
+        confidence: result.confidence
+      });
+
+      // optionally save to DB for each file
+    }
+
+    res.render('prediction_multiple', { results });
+
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error uploading file');
+    res.status(500).send('Prediction failed');
   }
 };
+

@@ -5,3 +5,5 @@ get prediction
 add database - feedback too
 tables in db
 restructure the server.js
+
+multiple images

@@ -13,6 +13,6 @@ router.get('/predict', (req, res) => {
   res.render('upload');
 });
 
-router.post('/predict', upload.single('xrayImage'), runPrediction);
+router.post('/predict', upload.array('xrayImage', 5), runPrediction); // allowing maximumm 5
 
 module.exports = router;
