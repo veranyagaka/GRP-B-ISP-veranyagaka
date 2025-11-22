@@ -36,7 +36,13 @@ exports.runPrediction = async (req, res) => {
         confidence: result.confidence
       });
 
-      // optionally save to DB for each file
+      // Save to DB
+await pool.query(
+  'INSERT INTO predictions (image, path, label, confidence) VALUES (?, ?, ?, ?)',
+  [file.filename, imagePath, result.label, result.confidence]
+);
+
+
     }
 
     res.render('prediction_multiple', { results });

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prediction History</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    img {
+      max-width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Prediction History</h1>
+  </header>
+
+  <main>
+    <% if (predictions.length === 0) { %>
+      <p>No predictions found.</p>
+    <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Image</th>
+            <th>Label</th>
+            <th>Confidence</th>
+            <th>Path</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% predictions.forEach(pred => { %>
+            <tr>
+              <td><%= pred.id %></td>
+              <td>
+                <img src="/uploads/<%= pred.image %>" alt="<%= pred.label %>">
+              </td>
+              <td><%= pred.label %></td>
+              <td><%= pred.confidence %> %</td>
+              <td><%= pred.path %></td>
+              <td><%= new Date(pred.created_at).toLocaleString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>
