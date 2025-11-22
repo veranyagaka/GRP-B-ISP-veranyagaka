@@ -30,12 +30,16 @@ exports.runResolution = async (req, res) => {
 
       try {
         const result = JSON.parse(data);
-        console.log(result);
-        // Optional DB save
-        // await pool.query(
-        //   'INSERT INTO resolutions (user_id, image_path, metrics, output_path) VALUES ($1, $2, $3, $4)',
-        //   [1, imagePath, result.metrics, result.output_path]
-        // );
+        await pool.query(
+  'INSERT INTO resolutions (user_id, image_path, metrics, output_path) VALUES (?, ?, ?, ?)',
+  [
+    1, 
+    imagePath,
+    JSON.stringify(result.metrics),
+    result.output_path
+  ]
+);
+
 
         res.render('resolution', { result });
       } catch (err) {

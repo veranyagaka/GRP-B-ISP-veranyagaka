@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resolution History</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    img {
+      max-width: 150px;
+    }
+    pre {
+      white-space: pre-wrap;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Resolution History</h1>
+  </header>
+
+  <main>
+    <% if (!resolutions || resolutions.length === 0) { %>
+      <p>No resolution records found.</p>
+    <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Input Image</th>
+            <th>Metrics</th>
+            <th>Output Image</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% resolutions.forEach(res => { %>
+            <tr>
+              <td><%= res.id %></td>
+              <td>
+                <img src="/uploads/<%= res.image_path.split('/').pop() %>" alt="Input Image">
+              </td>
+              <td>
+                <pre><%= JSON.stringify(JSON.parse(res.metrics), null, 2) %></pre>
+              </td>
+              <td>
+                <img src="/uploads/<%= res.output_path.split('/').pop() %>" alt="Output Image">
+              </td>
+              <td><%= new Date(res.created_at).toLocaleString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>

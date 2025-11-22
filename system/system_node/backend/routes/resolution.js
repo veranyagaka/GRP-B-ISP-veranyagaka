@@ -15,14 +15,21 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// const upload = multer({
-//   dest: path.join(__dirname, '../public/uploads')
-// });
 
 router.get("/resolve", (req, res) => {
   res.render("resolution_upload"); 
 });
 
 router.post("/resolve", upload.single("image"), runResolution);
+const pool = require('../db'); // MySQL pool
 
+router.get('/res-history', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM resolutions ORDER BY created_at DESC');
+    res.render('resolutionHistory', { resolutions: rows || [] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Failed to fetch resolution history');
+  }
+});
 module.exports = router;
