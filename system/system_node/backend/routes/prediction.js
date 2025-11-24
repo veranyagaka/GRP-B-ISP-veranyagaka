@@ -17,13 +17,24 @@ router.post('/predict', upload.array('xrayImage', 5), runPrediction); // allowin
 
 router.get('/history', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM predictions ORDER BY created_at DESC');
-    // Pass an empty array if no rows are returned
-    res.render('history', { predictions: rows || [] });
+    const [predictions] = await pool.query(
+      'SELECT * FROM predictions ORDER BY created_at DESC'
+    );
+
+    const [resolutions] = await pool.query(
+      'SELECT * FROM resolutions ORDER BY created_at DESC'
+    );
+
+    res.render('history', {
+      predictions: predictions || [],
+      resolutions: resolutions || []
+    });
+
   } catch (err) {
     console.error(err);
-    res.status(500).send('Failed to fetch prediction history');
+    res.status(500).send('Failed to load history');
   }
 });
+
 
 module.exports = router;

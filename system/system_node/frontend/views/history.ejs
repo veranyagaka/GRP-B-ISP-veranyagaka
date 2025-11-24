@@ -2,35 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Prediction History</title>
+  <title>Full Model History</title>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+
   <style>
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
+      margin-top: 25px;
     }
-    th, td {
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-    img {
-      max-width: 100px;
-    }
+    th, td { padding: 10px; }
+    th { background: #f2f2f2; }
+    img { max-width: 140px; border-radius: 4px; }
+    pre { white-space: pre-wrap; max-width: 300px; }
+    h2 { margin-top: 40px; }
   </style>
 </head>
+
 <body>
+
   <header>
-    <h1>Prediction History</h1>
+    <h1>Model Processing History</h1>
   </header>
 
   <main>
-    <% if (predictions.length === 0) { %>
+
+    <!-- ====================== RESOLUTION HISTORY ======================= -->
+    <h2>Resolution History</h2>
+
+    <% if (!resolutions || resolutions.length === 0) { %>
+      <p>No resolution records found.</p>
+    <% } else { %>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Input Image</th>
+            <th>Metrics</th>
+            <th>Output Image</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% resolutions.forEach(res => { %>
+          <tr>
+            <td><%= res.id %></td>
+
+            <td>
+              <img src="/uploads/<%= res.image_path.split('/').pop() %>">
+            </td>
+
+            <td>
+              <pre><%= JSON.stringify(JSON.parse(res.metrics), null, 2) %></pre>
+            </td>
+
+            <td>
+              <img src="/uploads/<%= res.output_path.split('/').pop() %>">
+            </td>
+
+            <td><%= new Date(res.created_at).toLocaleString() %></td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table>
+
+    <% } %>
+
+
+    <!-- ====================== PREDICTION HISTORY ======================= -->
+    <h2>Prediction History</h2>
+
+    <% if (!predictions || predictions.length === 0) { %>
       <p>No predictions found.</p>
     <% } else { %>
+
       <table>
         <thead>
           <tr>
@@ -42,22 +90,32 @@
             <th>Date</th>
           </tr>
         </thead>
+
         <tbody>
-          <% predictions.forEach(pred => { %>
-            <tr>
-              <td><%= pred.id %></td>
-              <td>
-                <img src="/uploads/<%= pred.image %>" alt="<%= pred.label %>">
-              </td>
-              <td><%= pred.label %></td>
-              <td><%= pred.confidence %> %</td>
-              <td><%= pred.path %></td>
-              <td><%= new Date(pred.created_at).toLocaleString() %></td>
-            </tr>
-          <% }) %>
+        <% predictions.forEach(pred => { %>
+          <tr>
+            <td><%= pred.id %></td>
+
+            <td>
+              <img src="/uploads/<%= pred.image %>">
+            </td>
+
+            <td><%= pred.label %></td>
+
+            <td><%= pred.confidence %> %</td>
+
+            <td><%= pred.path %></td>
+
+            <td><%= new Date(pred.created_at).toLocaleString() %></td>
+          </tr>
+        <% }) %>
         </tbody>
+
       </table>
+
     <% } %>
+
   </main>
+
 </body>
 </html>

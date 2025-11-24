@@ -11,8 +11,10 @@ const session = require('express-session');
 const flash = require('connect-flash');
 
 const database = require('./db.js');
-const admin = require('./firebase');
 
+const admin = require('./firebase');
+app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.json());
 const corsOptions = {
   origin: ['https://your-frontend-app.com', 'http://localhost:2000'],
   optionsSuccessStatus: 200,
@@ -48,6 +50,31 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 
 // routes
+
+// feedback route
+app.get('/feedback', (req, res) => {
+    res.render('feedback');
+});
+
+app.post('/feedback', (req, res) => {
+    const { message } = req.body;
+    console.log(message)
+    // if (!message || message.trim() === "") {
+    //     return res.render('feedback', { error: "Please enter a message." });
+    // }
+
+    const sql = "INSERT INTO feedback (message) VALUES (?)";
+
+    database.query(sql, [message], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.render('feedback', { error: "Something went wrong." });
+        }
+
+        res.render('dashboard', { success: "Feedback submitted successfully!" });
+    });
+});
+
 const predictionRoutes = require('./routes/prediction');
 app.use('/', predictionRoutes);
 
@@ -100,8 +127,7 @@ app.get('/redis-test', async (req, res) => {
     res.status(500).send('Redis error: ' + err.message);
   }
 });
-app.use(bodyParser.urlencoded({ extended: true })); 
-app.use(bodyParser.json());
+
 
 app.use(flash());
 
@@ -117,6 +143,10 @@ app.get('/', (req, res) => {
 app.get('/dashboard', (req, res) => {
   res.render('dashboard');
 });
+
+
+
+
 app.listen(port, () => {
     console.log(`PayMaster app listening at http://localhost:${port}`);
 });

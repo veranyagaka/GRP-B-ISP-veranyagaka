@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback</title>
+</head>
+<body>
+    <h1>Leave Feedback</h1>
+
+    <% if (typeof error !== 'undefined') { %>
+        <p style="color: red;"><%= error %></p>
+    <% } %>
+
+    <% if (typeof success !== 'undefined') { %>
+        <p style="color: green;"><%= success %></p>
+    <% } %>
+
+    <form action="/feedback" method="POST">
+        <textarea name="message" rows="5" cols="40" placeholder="Enter your message..."></textarea>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>

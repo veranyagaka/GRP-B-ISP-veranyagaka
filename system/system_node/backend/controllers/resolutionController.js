@@ -8,7 +8,7 @@ exports.runResolution = async (req, res) => {
     console.log(imagePath)
     // Spawn Python process
     const python = spawn('python3.11', [
-      path.join(__dirname, '../python/resolution.py'),
+      path.join(__dirname, '../python/res_test2.py'),
       imagePath
     ]);
 

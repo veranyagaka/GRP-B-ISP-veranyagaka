@@ -17,7 +17,7 @@ exports.runPrediction = async (req, res) => {
       // Run Python script for each file
       const data = await new Promise((resolve, reject) => {
         const python = spawn('python3', [
-          path.join(__dirname, '../python/predictor.py'),
+          path.join(__dirname, '../python/test2.py'),
           imagePath
         ]);
 
