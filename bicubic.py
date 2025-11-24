@@ -1,12 +1,12 @@
 import cv2
-import torch
 import numpy as np
 from PIL import Image
 from skimage.metrics import peak_signal_noise_ratio, structural_similarity
 import sys
+import os
 
 if len(sys.argv) != 2:
-    print("Usage: python3 bicubic_fixed.py <path_to_image>")
+    print("Usage: python3 bicubic.py <path_to_image>")
     sys.exit(1)
 
 image_path = sys.argv[1]
@@ -23,9 +23,16 @@ lr = cv2.resize(hr_np, (w // scale, h // scale), interpolation=cv2.INTER_CUBIC)
 # Step 2: Upscale LR -> SR (bicubic baseline)
 bicubic_up = cv2.resize(lr, (w, h), interpolation=cv2.INTER_CUBIC)
 
-# Step 3: Compute metrics against original HR
+# Step 3: Compute metrics
 psnr_value = peak_signal_noise_ratio(hr_np, bicubic_up, data_range=255)
 ssim_value = structural_similarity(hr_np, bicubic_up, data_range=255)
 
+# Step 4: Save output image
+base, ext = os.path.splitext(image_path)
+output_path = f"{base}_bicubic{ext}"
+
+Image.fromarray(bicubic_up).save(output_path)
+
 print("Correct Bicubic PSNR:", psnr_value)
 print("Correct Bicubic SSIM:", ssim_value)
+print("Saved bicubic baseline image to:", output_path)
