@@ -1,38 +1,34 @@
 from PIL import Image
 import os
+import sys
 
-def downsample_xray(input_path, output_path=None, downsample_factor=2, display=True):
+def downsample_xray(input_path, output_path=None, downsample_factor=2, display=False):
     """
-    Downsamples an image and upsamples it back to original size to simulate a low-resolution image.
+    Downsamples an image and upsamples it back to simulate low resolution.
+    """
 
-    Args:
-        input_path (str): Path to the input image file.
-        output_path (str, optional): Path to save the resulting image. Defaults to same directory.
-        downsample_factor (int): Factor to reduce resolution by (e.g., 2, 4).
-        display (bool): If True, displays the final image.
-    """
-    # Load the image
-    img = Image.open(input_path).convert("L")  # Convert to grayscale for X-rays
-    original_size = img.size  # (width, height)
+    # Load image
+    img = Image.open(input_path).convert("L")
+    original_size = img.size
     print(f"✅ Original size: {original_size}")
 
-    # Downsample and upsample back using bicubic interpolation
+    # Downsample + upsample
     low_res = img.resize(
         (original_size[0] // downsample_factor, original_size[1] // downsample_factor),
         Image.BICUBIC
     )
     simulated_low_res = low_res.resize(original_size, Image.BICUBIC)
 
-    # Define save path if not provided
+    # Auto output path if none provided
     if output_path is None:
         base, ext = os.path.splitext(input_path)
         output_path = f"{base}_downsampled{ext}"
 
-    # Save the result
+    # Save
     simulated_low_res.save(output_path)
     print(f"💾 Saved downsampled image to: {output_path}")
 
-    # Display for visual verification
+    # Optional display
     if display:
         simulated_low_res.show()
 
@@ -40,6 +36,23 @@ def downsample_xray(input_path, output_path=None, downsample_factor=2, display=T
 
 
 if __name__ == "__main__":
-    # Example usage
-    input_image = "normal_sample.jpeg"   # <-- change to your own image file
-    downsampled_img = downsample_xray(input_image, downsample_factor=2)
+    # Ensure at least one argument
+    if len(sys.argv) < 2:
+        print("Usage: python3 downsample.py <image_path> [downsample_factor] [output_path]")
+        sys.exit(1)
+
+    input_path = sys.argv[1]
+
+    # Optional downsample factor
+    downsample_factor = int(sys.argv[2]) if len(sys.argv) >= 3 else 2
+
+    # Optional output path
+    output_path = sys.argv[3] if len(sys.argv) >= 4 else None
+
+    # Run function
+    downsample_xray(
+        input_path=input_path,
+        output_path=output_path,
+        downsample_factor=downsample_factor,
+        display=False
+    )

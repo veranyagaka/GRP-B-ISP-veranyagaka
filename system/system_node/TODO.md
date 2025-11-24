@@ -1,9 +1,6 @@
-firebase authentication - google
-upload image
-dashboard
-get prediction 
-add database - feedback too
-tables in db
-restructure the server.js
+python /home/vera/Dev/ics-proj/ml/downsample.py ~/Downloads/sample-images/normal1.jpeg 
 
-multiple images
+
+node system/system_node/backend/server.js                
+
+python srcnn.py ~/Downloads/sample-images/pneumonia1.jpeg 

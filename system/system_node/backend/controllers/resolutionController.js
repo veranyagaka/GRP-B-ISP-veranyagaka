@@ -1,6 +1,6 @@
 const path = require('path');
 const { spawn } = require('child_process');
-const pool = require('../db'); // optional
+const pool = require('../db'); 
 
 exports.runResolution = async (req, res) => {
   try {
@@ -8,7 +8,7 @@ exports.runResolution = async (req, res) => {
     console.log(imagePath)
     // Spawn Python process
     const python = spawn('python3.11', [
-      path.join(__dirname, '../python/res_test2.py'),
+      path.join(__dirname, '../python/srcnn.py'),
       imagePath
     ]);
 
