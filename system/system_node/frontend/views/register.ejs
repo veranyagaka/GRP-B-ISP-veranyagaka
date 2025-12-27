@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paymaster- Sign Up</title>
+  <link rel="stylesheet" href="/css/registration.css">
+</head>
+<body>
+  <div class="wrapper">
+    <form action="/register" method="POST" id="registerForm">
+      <h2>Register</h2>
+        <div class="input-field">
+        <input type="text" id="email" name="email" required>
+        <label>Enter your email</label>
+      </div>     
+      <div class="input-field">
+        <input type="password" id="password" name="password" required>
+        <label>Enter your password</label>
+      </div>
+      <div class="forget">
+        <label for="remember">
+          <input type="checkbox" id="remember">
+          <p>Remember me</p>
+        </label>
+      </div>
+      <button type="submit">Sign Up</button>
+      <div class="register">
+        <p>Already have an account? <a href="/login">Login</a></p>
+      </div>
+    </form>
+  </div>
+    <!-- Success message -->
+    <div class="success-message" id="successMessage">Registration was successfully. Check your email for verification.</div>
+<script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+        // Handle form submission here, e.g., make an AJAX request to send the reset email
+        console.log('Registration email:', document.getElementById('email').value);
+  
+        // Display success message
+        document.getElementById('successMessage').style.display = 'block';
+  
+        // Hide success message after 5 seconds
+        setTimeout(function() {
+          document.getElementById('successMessage').style.display = 'none';
+        }, 5000);
+      });
+</script>
+</body>
+</html>
+  

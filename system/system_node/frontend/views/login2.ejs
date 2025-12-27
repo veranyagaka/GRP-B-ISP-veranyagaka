@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC5_JGhGc86S9op8MAlAW1O7-SgDaJ8eZQ",
+  authDomain: "srcnn-1ae4b.firebaseapp.com",
+  projectId: "srcnn-1ae4b",
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body>
+  <h2>Login</h2>
+  <button id="googleLogin">Login with Google</button>
+
+  <script>
+    const googleLoginButton = document.getElementById('googleLogin');
+    googleLoginButton.addEventListener('click', async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        const result = await firebase.auth().signInWithPopup(provider);
+        const token = await result.user.getIdToken();
+
+        const response = await fetch('/auth/google', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          alert('Google login successful!');
+          window.location.href = '/employee-profile';
+        } else {
+          alert(data.error || 'Login failed');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Error during Google login');
+      }
+    });
+  </script>
+</body>
+</html>

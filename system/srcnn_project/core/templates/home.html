@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Login</h2>
+  <button id="test-js">Click me</button>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("✅ JavaScript now runs from block scripts!");
+    const btn = document.getElementById("test-js");
+    btn.addEventListener("click", () => {
+      alert("🎉 JS is working inside Django!");
+      btn.textContent = "It works!";
+    });
+  });
+</script>
+{% endblock %}

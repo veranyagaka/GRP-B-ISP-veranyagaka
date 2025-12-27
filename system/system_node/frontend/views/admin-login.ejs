@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paymaster- Admin Login</title>
+  <link rel="stylesheet" href="/css/registration.css">
+</head>
+<body>
+  <div class="wrapper">
+    <% if (typeof success !== 'undefined' && success.length > 0) { %>
+      <p style="color: green;" id="successMessage"><%= success %></p>
+    <% } %>
+    <% if (typeof error !== 'undefined' && error.length > 0) { %>
+      <div class="error-message" id="errorMessage"><%= error %></div>
+    <% } %>
+    <form action="/admin-login" method="POST">
+      <h2>Administrator Login</h2>
+      <h3>Welcome back</h3>
+
+        <div class="input-field">
+        <input type="text" id="email" name="email" required>
+        <label>Enter your email</label>
+      </div>     
+      <div class="input-field">
+        <input type="password" id="password" name="password" required>
+        <label>Enter your password</label>
+      </div>
+      <div class="forget">
+        <label for="remember">
+          <input type="checkbox" id="remember">
+          <p>Remember me</p>
+        </label>
+      </div>
+      <button type="submit">Login</button>
+      <div class="register">
+	</div>
+    </form>
+  </div>
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      const formData = {
+        employeeID: event.target.employeeID.value,
+        email: event.target.email.value,
+        password: event.target.password.value,
+      };
+      console.log('Form submitted:', formData);
+      // Add your form submission logic here
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const errorMessage = document.getElementById('errorMessage');
+      if (errorMessage) {
+        errorMessage.style.display = 'block';
+        setTimeout(() => {
+          errorMessage.style.display = 'none';
+        }, 5000);
+      }
+    const successMessage = document.getElementById('successMessage');
+      if (successMessage) {
+        successMessage.style.display = 'block';
+        setTimeout(() => {
+          successMessage.style.display = 'none';
+        }, 5000);
+      };
+    });
+
+  </script>
+
+</body>
+</html>
+  

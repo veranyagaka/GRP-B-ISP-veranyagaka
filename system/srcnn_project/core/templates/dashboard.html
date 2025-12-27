@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SRCNN Dashboard</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", sans-serif;
+      margin: 0;
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    header {
+      background: #000000;
+      color: #ffffff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .btn-logout {
+      padding: 0.5rem 1rem;
+      background-color: #f8c8dc;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-logout:hover {
+      background-color: #f4a7c2;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .upload-section {
+      background: #f9f9f9;
+      border: 2px dashed #ccc;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .upload-section input[type="file"] {
+      margin-top: 1rem;
+    }
+
+    .btn-upload {
+      margin-top: 1rem;
+      padding: 0.7rem 1.5rem;
+      background: #f8c8dc;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-upload:hover {
+      background: #f4a7c2;
+    }
+
+    h2 {
+      margin-top: 3rem;
+      font-size: 1.4rem;
+      border-bottom: 2px solid #000;
+      display: inline-block;
+      padding-bottom: 0.2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 0.8rem;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SRCNN Dashboard</h1>
+    <button class="btn-logout">Log Out</button>
+  </header>
+
+  <div class="container">
+    <section class="upload-section">
+      <h2>Upload New Image</h2>
+      <p>Select an image to run through the SRCNN model.</p>
+      <input type="file" accept="image/*" multiple/>
+      <br />
+      <button class="btn-upload">Upload & Run</button>
+    </section>
+
+    <section class="recent-images">
+      <h2>Recent Images</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Date</th>
+            <th>PSNR</th>
+            <th>SSIM</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><img src="results/sample1.png" alt="Sample 1" width="60"></td>
+            <td>2025-10-03</td>
+            <td>32.5 dB</td>
+            <td>0.91</td>
+            <td>✅ Completed</td>
+          </tr>
+          <tr>
+            <td><img src="results/sample2.png" alt="Sample 2" width="60"></td>
+            <td>2025-10-02</td>
+            <td>30.8 dB</td>
+            <td>0.87</td>
+            <td>✅ Completed</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>
+
+{% extends "base.html" %}
+{% block content %}
+  <h2>Welcome, {{ user.first_name|default:user.username }} 👋</h2>
+  <p>You are logged in via Google.</p>
+  <a href="{% url 'logout' %}">Logout</a>
+{% endblock %}

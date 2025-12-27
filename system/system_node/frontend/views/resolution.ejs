@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enhanced X-Ray Result</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+
+  <div class="max-w-2xl w-full bg-white shadow-xl rounded-2xl p-10">
+
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 flex items-center gap-2">
+      🩻 Enhanced X-Ray Result
+    </h1>
+
+    <% if (result.error) { %>
+
+      <div class="bg-red-100 text-red-700 p-4 rounded-xl mb-6 border border-red-300">
+        <p class="font-semibold">⚠️ Error</p>
+        <p><%= result.error %></p>
+      </div>
+
+    <% } else { %>
+
+      <div class="space-y-6">
+
+        <!-- Result Message -->
+        <h2 class="text-xl font-semibold text-gray-700">
+          <%= result.message %>
+        </h2>
+
+        <!-- Enhanced Image -->
+        <div class="w-full flex justify-center">
+          <img 
+            src="/<%= result.output_path %>" 
+            alt="Enhanced Image"
+            class="max-w-sm rounded-xl shadow-md border"
+          >
+        </div>
+
+        <!-- Metrics -->
+        <p class="text-gray-600">
+          <strong class="font-semibold text-gray-800">Metrics:</strong>
+          <%= result.metrics %>
+        </p>
+
+        <!-- Download Button -->
+        <a 
+          href="/<%= result.output_path %>" 
+          download 
+          class="block text-center bg-blue-600 text-white px-4 py-3 rounded-xl shadow hover:bg-blue-700 transition"
+        >
+          ⬇️ Download Enhanced Image
+        </a>
+
+      </div>
+
+    <% } %>
+
+    <!-- Upload Another -->
+    <a 
+      href="/resolve" 
+      class="mt-8 block text-center bg-gray-700 text-white px-4 py-3 rounded-xl hover:bg-gray-800 shadow transition"
+    >
+      🔙 Upload Another
+    </a>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+system/my_env
+*.pyc
+*.sqlite3
+serviceAccount.json
+*.jpeg
+*.zip
+system/system_node/backend/public/uploads
+system/srcnn_project/srcnn_project/firebase.json
+my_env/
+script.txt

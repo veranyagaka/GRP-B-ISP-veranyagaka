@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SRCNN Medical Imaging Enhancement</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: 'Segoe UI', sans-serif;
+      color: #1f2937;
+    }
+
+    .navbar {
+      background-color: #1e293b;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      background: linear-gradient(to right, #2563eb, #1e40af);
+      color: #fff;
+    }
+
+    .hero h1 {
+      font-weight: 800;
+      font-size: 3rem;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-top: 1rem;
+    }
+
+    section {
+      padding: 80px 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    .line {
+      width: 80px;
+      height: 4px;
+      background-color: #2563eb;
+      margin: 10px auto 40px;
+    }
+
+    .about p, .methodology p, .results p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #374151;
+    }
+
+    .btn-primary {
+      background-color: #2563eb;
+      border: none;
+      padding: 10px 25px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+    }
+
+    .btn-primary:hover {
+      background-color: #1e40af;
+    }
+
+    footer {
+      background-color: #1e293b;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <h3>SRCNN Imaging</h3>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#methodology">Methodology</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>Enhancing Medical Images with SRCNN</h1>
+    <p>Super-Resolution Convolutional Neural Network for Improved Diagnostic Clarity</p>
+    <a href="#about" class="btn btn-primary mt-4">Learn More</a>
+  </div>
+
+  <!-- About Section -->
+  <section id="about" class="about">
+    <h2 class="section-title">About the Project</h2>
+    <div class="line"></div>
+    <div class="container">
+      <p>
+        The SRCNN (Super-Resolution Convolutional Neural Network) project aims to enhance low-resolution medical images 
+        such as MRI and CT scans to improve visualization and diagnostic accuracy. This work focuses on applying 
+        deep learning-based image super-resolution techniques to reconstruct finer image details and reduce artifacts.
+      </p>
+    </div>
+  </section>
+
+  <!-- Methodology Section -->
+  <section id="methodology" class="methodology bg-light">
+    <h2 class="section-title">Methodology</h2>
+    <div class="line"></div>
+    <div class="container">
+      <p>
+        Our methodology integrates the Super-Resolution CNN (SRCNN) architecture, consisting of three key layers: 
+        patch extraction, non-linear mapping, and reconstruction. The dataset includes medical images preprocessed 
+        through normalization and bicubic interpolation. Training is performed using MSE loss and the Adam optimizer 
+        for optimal convergence and reconstruction quality.
+      </p>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section id="results" class="results">
+    <h2 class="section-title">Results & Insights</h2>
+    <div class="line"></div>
+    <div class="container text-center">
+      <p>
+        Experimental results demonstrate that SRCNN effectively restores image sharpness, edges, and fine textures 
+        compared to traditional interpolation methods. Quantitative metrics such as PSNR and SSIM show significant 
+        improvements in visual fidelity, supporting SRCNN’s potential in clinical imaging applications.
+      </p>
+      <a href="#contact" class="btn btn-primary mt-3">Get in Touch</a>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact bg-light">
+    <h2 class="section-title">Contact</h2>
+    <div class="line"></div>
+    <div class="container text-center">
+      <p>
+        Interested in collaborating or learning more about this research?  
+        <br>Contact the project lead at <strong>vera.nyagaka@strathmore.edu</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 SRCNN Medical Imaging Project | Vera Nyagaka</p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

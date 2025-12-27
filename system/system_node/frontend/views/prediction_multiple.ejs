@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prediction Results</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-8">
+
+  <div class="max-w-5xl mx-auto">
+    
+    <h1 class="text-4xl font-bold text-gray-900 mb-10 text-center">
+      🧠 Prediction Results
+    </h1>
+
+    <!-- Grid of predictions -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <% results.forEach(result => { %>
+
+        <div class="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center">
+
+          <!-- Image -->
+          <img 
+            src="/uploads/<%= result.image %>" 
+            alt="Predicted Image"
+            class="w-40 h-40 object-cover rounded-xl shadow mb-4 border"
+          >
+
+          <!-- Label -->
+          <p class="text-gray-700 text-lg">
+            <strong class="text-gray-900">Label:</strong> 
+            <%= result.label %>
+          </p>
+
+          <!-- Confidence -->
+          <p class="text-gray-700 text-lg">
+            <strong class="text-gray-900">Confidence:</strong> 
+            <%= result.confidence %>%
+          </p>
+
+          <!-- Download button -->
+          <a
+            href="/uploads/<%= result.image %>"
+            download
+            class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-xl text-sm shadow hover:bg-blue-700 transition"
+          >
+            ⬇️ Download Image
+          </a>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="mt-12 flex justify-center gap-6">
+
+      <a 
+        href="/predict"
+        class="bg-blue-600 text-white py-3 px-6 rounded-xl text-lg shadow hover:bg-blue-700 transition"
+      >
+        🔁 Analyze More X-Rays
+      </a>
+
+      <a 
+        href="/dashboard"
+        class="bg-gray-700 text-white py-3 px-6 rounded-xl text-lg shadow hover:bg-gray-800 transition"
+      >
+        ← Back to Dashboard
+      </a>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
